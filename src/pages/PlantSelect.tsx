@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react'
 import { Text, SafeAreaView, StyleSheet, View , FlatList} from 'react-native'
 import { EnvironmentButton } from '../components/EnvironmentButton'
 import { Header } from '../components/Header'
+import { Load } from '../components/Load'
 import { PlantCardPrimary } from '../components/PlantCardPrimary'
+
 import api from '../services/api'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
@@ -28,6 +30,7 @@ export function PlantSelect(){
   const [environments, setEnvironments] = useState<EnvironmentProps[]>([])  
   const [plants, setPlants] = useState<PlantsProps[]>([])
   const [filteredPlants, setFilteredPlants] = useState<PlantsProps[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   const [environmentSelected, setEnvironmentSelected] = useState('all')
 
@@ -42,6 +45,8 @@ export function PlantSelect(){
     async function fetchPlants(){
       const  {data} = await api.get('plants?_sort=name&_order=asc')
       setPlants(data)
+      setFilteredPlants(data)
+      setLoading(false)
     }
     fetchPlants()
   },[])
@@ -53,7 +58,8 @@ export function PlantSelect(){
     const filtered = plants.filter((plant => plant.environments.includes(key)))
     setFilteredPlants(filtered)
   }
-
+  if(loading)
+    return <Load/>
   return (
     <View style={styles.container} >
       <View style={styles.header} >
