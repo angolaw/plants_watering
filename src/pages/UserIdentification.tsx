@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React, {useState} from 'react'
 import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, Platform} from 'react-native'
 import { Button } from '../components/Button'
@@ -22,6 +23,11 @@ export function UserIdentification(){
     setIsFilled(!!value)
     setName(value)
   }
+    const navigation = useNavigation()
+
+  function handleConfirm(){
+    navigation.navigate('Confirmation')
+  }
   return(
     <SafeAreaView style={styles.container} >
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}  >
@@ -37,7 +43,7 @@ export function UserIdentification(){
         
         />
         <View style={styles.footer}>
-                  <Button title="Confirmar" />
+                  <Button title="Confirmar" onPress={handleConfirm} />
 
         </View>
         </View>

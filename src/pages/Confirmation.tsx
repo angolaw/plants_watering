@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core'
 import React from 'react'
 import { Text, View, SafeAreaView, StyleSheet } from 'react-native'
 import { Button } from '../components/Button'
@@ -6,6 +7,9 @@ import fonts from '../styles/fonts'
 
 
 export function Confirmation(){
+
+
+
   return (
     <SafeAreaView style={styles.container} >
         <View style={styles.content} >
