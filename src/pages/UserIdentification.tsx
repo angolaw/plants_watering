@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView} from 'react-native'
+import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, Platform} from 'react-native'
 import { Button } from '../components/Button'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
@@ -7,7 +7,7 @@ import fonts from '../styles/fonts'
 export function UserIdentification(){
   return(
     <SafeAreaView style={styles.container} >
-      <KeyboardAvoidingView>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}  >
         <View style={styles.wrapper} >
         <View style={styles.form}>
            <Text style={styles.emoji} >😄</Text>
