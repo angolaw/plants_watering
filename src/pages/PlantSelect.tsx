@@ -4,13 +4,12 @@ import { Header } from '../components/Header'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
 
-
 export function PlantSelect(){
   return (
-    <SafeAreaView style={styles.container} >
+    <View style={styles.container} >
      <Header/>
       <Text>Selecionar Planta</Text>
-    </SafeAreaView>
+    </View>
   )
 }
 
