@@ -37,11 +37,12 @@ export function PlantSelect(){
   const [environmentSelected, setEnvironmentSelected] = useState('all')
 
    async function fetchPlants(){
-      const  {data} = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=6`)
+      const  {data} = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`)
       if(!data)
         return setLoading(true)
       if(page >1){
         setPlants(oldValue => [...oldValue, ...data])
+        setFilteredPlants(oldValue => [...oldValue, ...data])
       }else{
         setPlants(data)
         setFilteredPlants(data)
