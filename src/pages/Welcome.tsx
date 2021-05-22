@@ -9,7 +9,7 @@ export function Welcome(){
       <Text style={styles.title}  >Gerencie {'\n' } suas Plantas {'\n' } de forma fácil </Text>
       <Image source={watering} style={styles.image} />
       <Text style={styles.subtitle} >Não esqueça mais de regar suas plantas. Nós cuidamos de lembrar você, sempre que precisar</Text>
-      <Button title=">" />
+      <Button title=">"  />
    </SafeAreaView> 
   )
 }
