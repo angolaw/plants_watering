@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Text, SafeAreaView, StyleSheet, View , FlatList} from 'react-native'
+import { Text, SafeAreaView, StyleSheet, View , FlatList, ActivityIndicator} from 'react-native'
 import { EnvironmentButton } from '../components/EnvironmentButton'
 import { Header } from '../components/Header'
 import { Load } from '../components/Load'
@@ -36,6 +36,35 @@ export function PlantSelect(){
   const [loadedAll, setLoadedAll] = useState(false)
   const [environmentSelected, setEnvironmentSelected] = useState('all')
 
+   async function fetchPlants(){
+      const  {data} = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=6`)
+      if(!data)
+        return setLoading(true)
+      if(page >1){
+        setPlants(oldValue => [...oldValue, ...data])
+      }else{
+        setPlants(data)
+        setFilteredPlants(data)
+      }
+      
+      setLoading(false)
+      setLoadingMore(false)
+    }
+  function handleFetchMore(distance: number){
+    if(distance < 1) return;
+    setLoadingMore(true)
+    setPage(oldValue => oldValue +1)
+    fetchPlants()
+  }
+
+  function handleEnvironmentSelected(key: string){
+    setEnvironmentSelected(key)
+    if(key === 'all')
+      return setFilteredPlants(plants)
+    const filtered = plants.filter((plant => plant.environments.includes(key)))
+    setFilteredPlants(filtered)
+  }
+
   useEffect(() =>{
     async function fetchEnvironment(){
       const  {data} = await api.get('plants_environments?_sort=title&_order=asc')
@@ -44,22 +73,10 @@ export function PlantSelect(){
     fetchEnvironment()
   },[])
   useEffect(() =>{
-    async function fetchPlants(){
-      const  {data} = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`)
-      setPlants(data)
-      setFilteredPlants(data)
-      setLoading(false)
-    }
+   
     fetchPlants()
   },[])
-  
-  function handleEnvironmentSelected(key: string){
-    setEnvironmentSelected(key)
-    if(key === 'all')
-      return setFilteredPlants(plants)
-    const filtered = plants.filter((plant => plant.environments.includes(key)))
-    setFilteredPlants(filtered)
-  }
+
   if(loading)
     return <Load/>
   return (
@@ -87,6 +104,9 @@ export function PlantSelect(){
           />}
           showsVerticalScrollIndicator={false}
           numColumns={2}
+          onEndReachedThreshold={0.1}
+            onEndReached={({distanceFromEnd}) => handleFetchMore(distanceFromEnd)}
+          ListFooterComponent={ loadingMore ? <ActivityIndicator color={colors.green_dark}/> : <></> }
         />
       </View>
     </View>
