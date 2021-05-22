@@ -7,8 +7,10 @@ import fonts from '../styles/fonts'
 
 
 export function Confirmation(){
-
-
+  const navigation = useNavigation()
+  function handleConfirm(){
+    navigation.navigate('PlantSelect')
+  }
 
   return (
     <SafeAreaView style={styles.container} >
@@ -17,7 +19,7 @@ export function Confirmation(){
           <Text style={styles.title} >Prontinho</Text>
           <Text style={styles.subtitle} >Agora vamos começar a cuidar das suas plantinhas com muito carinho</Text>
            <View style={styles.footer}  > 
-          <Button title="Começar" />
+          <Button title="Começar" onPress={handleConfirm}  />
         </View>
         </View>
 

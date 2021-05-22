@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, {useState} from 'react'
-import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, Platform} from 'react-native'
+import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, Keyboard, Platform, TouchableWithoutFeedback} from 'react-native'
 import { Button } from '../components/Button'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
@@ -30,8 +30,9 @@ export function UserIdentification(){
   }
   return(
     <SafeAreaView style={styles.container} >
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}  >
-        <View style={styles.wrapper} >
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}  >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
+          <View style={styles.wrapper} >
         <View style={styles.form}>
            <Text style={styles.emoji} >{isFilled ? '😄' : '🙃'}</Text>
         <Text style={styles.title} >Como podemos{'\n'} chamar você?</Text>
@@ -48,6 +49,7 @@ export function UserIdentification(){
         </View>
         </View>
       </View>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
   )
