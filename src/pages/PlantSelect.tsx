@@ -31,7 +31,9 @@ export function PlantSelect(){
   const [plants, setPlants] = useState<PlantsProps[]>([])
   const [filteredPlants, setFilteredPlants] = useState<PlantsProps[]>([])
   const [loading, setLoading] = useState<boolean>(true)
-
+  const [page, setPage] = useState(1)
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [loadedAll, setLoadedAll] = useState(false)
   const [environmentSelected, setEnvironmentSelected] = useState('all')
 
   useEffect(() =>{
@@ -43,7 +45,7 @@ export function PlantSelect(){
   },[])
   useEffect(() =>{
     async function fetchPlants(){
-      const  {data} = await api.get('plants?_sort=name&_order=asc')
+      const  {data} = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`)
       setPlants(data)
       setFilteredPlants(data)
       setLoading(false)
