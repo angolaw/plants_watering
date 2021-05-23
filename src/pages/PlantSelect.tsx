@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import React, {useEffect, useState} from 'react'
 import { Text, SafeAreaView, StyleSheet, View , FlatList, ActivityIndicator} from 'react-native'
 import { EnvironmentButton } from '../components/EnvironmentButton'
@@ -35,7 +36,7 @@ export function PlantSelect(){
   const [loadingMore, setLoadingMore] = useState(false)
   const [loadedAll, setLoadedAll] = useState(false)
   const [environmentSelected, setEnvironmentSelected] = useState('all')
-
+  const navigation = useNavigation()
    async function fetchPlants(){
       const  {data} = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`)
       if(!data)
@@ -64,6 +65,10 @@ export function PlantSelect(){
       return setFilteredPlants(plants)
     const filtered = plants.filter((plant => plant.environments.includes(key)))
     setFilteredPlants(filtered)
+  }
+
+  function handlePlantSelected(plant:PlantsProps){
+    navigation.navigate('PlantSave', {plant})
   }
 
   useEffect(() =>{
@@ -103,8 +108,10 @@ export function PlantSelect(){
         <FlatList 
           data={filteredPlants}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({item}) => <PlantCardPrimary data={item}
-          />}
+          renderItem={({item}) => <PlantCardPrimary 
+            data={item}
+            onPress={() => handlePlantSelected(item)}
+            />}
           showsVerticalScrollIndicator={false}
           numColumns={2}
           onEndReachedThreshold={0.1}
