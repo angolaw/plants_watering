@@ -33,7 +33,7 @@ export async function savePlant(plant: PlantProps): Promise<void>{
       nextTime.setDate(now.getDate() + interval)
     }
     // else{
-    //   nextTime.setDate(nextTime.getDate()+1)
+    //    nextTime.setDate(nextTime.getDate()+1)
     // }
 
     const seconds = Math.abs(
@@ -91,6 +91,7 @@ export async function removePlant(plant: PlantProps){
   try{
     const data = await AsyncStorage.getItem('@plantmanager:plants')
     const plants = data ? (JSON.parse(data) as StoragePlantProps) : {}
+    await Notifications.cancelScheduledNotificationAsync(plants[plant.id].notificationId)
     delete plants[plant.id]
     await AsyncStorage.setItem('@plantmanager:plants', JSON.stringify(plants))
           
