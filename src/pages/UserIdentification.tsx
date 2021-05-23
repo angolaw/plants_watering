@@ -29,7 +29,9 @@ export function UserIdentification(){
   async function handleConfirm(){
     if(!name) return Alert.alert(`Precisamos saber seu nome! 🧐`)
     await AsyncStorage.setItem('@plantmanager:user',name)
-    navigation.navigate('Confirmation')
+    navigation.navigate('Confirmation', {title: 'Prontinho', 
+    subtitle: 'Agora vamos começar a cuidar das suas plantinhas', 
+    buttonTitle:'Começar', icon: 'smile', nextScreen: 'PlantSelect'})
   }
   return(
     <SafeAreaView style={styles.container} >

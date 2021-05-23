@@ -48,7 +48,7 @@ export async function loadPlants(): Promise<PlantProps[]>{
         hour: format(new Date(plants[plant].data.dateTimeNotification),'HH:mm')
       }
     }).sort((a, b) =>
-      Math.floor(new Date(a.dateTimeNotification).getTime()/1000 - Math.floor(b.dateTimeNotification.getTime() / 1000))
+      Math.floor(new Date(a.dateTimeNotification).getTime() / 1000) - Math.floor(new Date(b.dateTimeNotification).getTime() / 1000)
     )
     return plantsSorted 
   }catch(error){
