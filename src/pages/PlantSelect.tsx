@@ -5,6 +5,7 @@ import { EnvironmentButton } from '../components/EnvironmentButton'
 import { Header } from '../components/Header'
 import { Load } from '../components/Load'
 import { PlantCardPrimary } from '../components/PlantCardPrimary'
+import { PlantProps } from '../libs/storage'
 
 import api from '../services/api'
 import colors from '../styles/colors'
@@ -14,23 +15,11 @@ interface EnvironmentProps{
   key: string;
   title: string;
 }
-interface PlantsProps{
-  name: string;
-  photo: string;
-  id:number;
-  about:string;
-  environments: [string];
-  frequency: {
-    times:number;
-    repeat_every:number;
-  }
-
-}
 
 export function PlantSelect(){
   const [environments, setEnvironments] = useState<EnvironmentProps[]>([])  
-  const [plants, setPlants] = useState<PlantsProps[]>([])
-  const [filteredPlants, setFilteredPlants] = useState<PlantsProps[]>([])
+  const [plants, setPlants] = useState<PlantProps[]>([])
+  const [filteredPlants, setFilteredPlants] = useState<PlantProps[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [page, setPage] = useState(1)
   const [loadingMore, setLoadingMore] = useState(false)
@@ -67,7 +56,7 @@ export function PlantSelect(){
     setFilteredPlants(filtered)
   }
 
-  function handlePlantSelected(plant:PlantsProps){
+  function handlePlantSelected(plant:PlantProps){
     navigation.navigate('PlantSave', {plant})
   }
 

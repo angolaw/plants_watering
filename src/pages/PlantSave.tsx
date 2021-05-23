@@ -9,7 +9,7 @@ import { getBottomSpace } from 'react-native-iphone-x-helper'
 import {useRoute} from '@react-navigation/core'
 import DateTimePicker, {Event} from '@react-native-community/datetimepicker'
 import { format, isBefore } from 'date-fns'
-import { PlantProps } from '../libs/storage'
+import { PlantProps, savePlant, loadPlants } from '../libs/storage'
 interface Params {
   plant: PlantProps
 
@@ -38,6 +38,15 @@ export function PlantSave(){
   }
   function handleOpenDatetimePickerForAndroid(){
     setShowDatePicker(oldValue => !oldValue)
+  }
+  async function handleSave(){
+  
+  
+    try {
+      await savePlant({...plant, dateTimeNotification: selectedDateTime})
+    } catch (error) {
+      Alert.alert(`Não foi possível salvar`)
+    }
   }
 
   return (
@@ -71,7 +80,7 @@ export function PlantSave(){
             </TouchableOpacity>
           )
         }
-        <Button onPress={() => {}} title="Cadastrar" />
+        <Button onPress={ handleSave} title="Cadastrar" />
     </View>
     </View>
   ) 
