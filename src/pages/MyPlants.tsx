@@ -8,24 +8,26 @@ import { formatDistance } from 'date-fns'
 import { pt } from 'date-fns/locale'
 import fonts from '../styles/fonts'
 import { PlantCardSecondary } from '../components/PlantCardSecondary'
+import { Load } from '../components/Load'
 
 export function MyPlants(){
   const [myPlants, setMyPlants] = useState<PlantProps[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [nextWatered, setNextWatered] = useState<string>()
 
   useEffect(() =>{
     async function loadStorageData(){
       const plantsStored = await loadPlants()
       const nextTime = formatDistance(new Date(plantsStored[0].dateTimeNotification).getTime(),new Date().getTime(), {locale: pt})
-      setNextWatered(`Não esqueça de regar a ${plantsStored[0].name} às ${nextTime} horas`)
+      setNextWatered(`Não esqueça de regar a ${plantsStored[0].name} em ${nextTime} `)
       setMyPlants(plantsStored)
       setLoading(false)
 
     }
     loadStorageData()
   })
-
+  if(loading)
+    return <Load/>
   return (
     <View style={styles.container}>
       <Header />
