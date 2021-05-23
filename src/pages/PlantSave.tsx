@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text, View, StyleSheet, Alert, Image, ScrollView, Platform, TouchableOpacity } from 'react-native'
+import React, {useState} from 'react'
+import { Text, View, StyleSheet, Alert, Image, ScrollView, Platform, TouchableOpacity, DatePickerIOSComponent, DatePickerIOS } from 'react-native'
 import {SvgFromUri} from 'react-native-svg'
 import fonts from '../styles/fonts'
 import WaterDrop from '../assets/waterdrop.png'
@@ -7,7 +7,7 @@ import { Button } from '../components/Button'
 import colors from '../styles/colors'
 import { getBottomSpace } from 'react-native-iphone-x-helper'
 import {useRoute} from '@react-navigation/core'
-
+import DateTimePicker, {Event} from '@react-native-community/datetimepicker'
 interface Params {
   plant: {
      name: string;
@@ -28,8 +28,16 @@ interface Params {
 export function PlantSave(){
   const route = useRoute()
   const {plant} = route.params as Params
-  const period = plant.frequency.repeat_every == 'week' ? 'semana' : 'dia'
-  const times = plant.frequency.times < 2 ? 'vez' : 'vezes'
+
+  const [selectedDateTime, setSelectedDateTime] = useState(new Date())
+  const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios')
+
+  function handleChangeTime(event: Event, dateTime: Date | undefined){
+    if(Platform.OS === 'android'){
+      setShowDatePicker(oldValue => !oldValue)
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.plantInfo} >
@@ -51,6 +59,7 @@ export function PlantSave(){
           </Text>
         </View>
         <Text style={styles.alertLabel} >Escolha o melhor horário para ser lembrado</Text>
+        <DateTimePicker  value={selectedDateTime} mode="time"  display="spinner"  onChange={handleChangeTime} />
         <Button onPress={() => {}} title="Cadastrar" />
     </View>
     </View>
