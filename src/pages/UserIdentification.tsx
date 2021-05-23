@@ -4,6 +4,7 @@ import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, 
 import { Button } from '../components/Button'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 export function UserIdentification(){
@@ -25,8 +26,9 @@ export function UserIdentification(){
   }
     const navigation = useNavigation()
 
-  function handleConfirm(){
+  async function handleConfirm(){
     if(!name) return Alert.alert(`Precisamos saber seu nome! 🧐`)
+    await AsyncStorage.setItem('@plantmanager:user',name)
     navigation.navigate('Confirmation')
   }
   return(
