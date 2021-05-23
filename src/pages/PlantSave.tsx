@@ -54,7 +54,8 @@ export function PlantSave(){
   }
 
   return (
-    <View style={styles.container}>
+   <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container} >
+      <View style={styles.container}>
       <View style={styles.plantInfo} >
         <SvgFromUri
           uri={plant.photo}
@@ -87,6 +88,7 @@ export function PlantSave(){
         <Button onPress={ handleSave} title="Cadastrar" />
     </View>
     </View>
+   </ScrollView>
   ) 
 }
 
