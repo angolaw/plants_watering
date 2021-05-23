@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {format} from 'date-fns'
-
+import * as Notifications from 'expo-notifications'
 export interface PlantProps{
     name: string;
     photo: string;
@@ -18,7 +18,8 @@ export interface PlantProps{
 
 export interface StoragePlantProps {
   [id:string]:{
-    data: PlantProps
+    data: PlantProps;
+    notificationId: string;
   }
 }
 export async function savePlant(plant: PlantProps): Promise<void>{
@@ -30,20 +31,33 @@ export async function savePlant(plant: PlantProps): Promise<void>{
     if(repeat_every ==='week'){
       const interval = Math.trunc(7/times)
       nextTime.setDate(now.getDate() + interval)
-    }else{
-      nextTime.setDate(nextTime.getDate()+1)
     }
+    // else{
+    //   nextTime.setDate(nextTime.getDate()+1)
+    // }
 
     const seconds = Math.abs(
-      Math.ceil(now.getTime() - nextTime.getTime()/ 1000)
-    )
-
+      Math.ceil(now.getTime() - nextTime.getTime())/ 1000)
+    const notificationId = await Notifications.scheduleNotificationAsync({
+      content:{
+        title: 'Ei! 🌱',
+        body: `Está na hora de cuidar da sua ${plant.name}`,
+        sound:true,
+        priority: Notifications.AndroidNotificationPriority.HIGH,
+        data:{plant}
+      },
+      trigger: {
+        seconds: seconds < 60 ? 60 : seconds,
+        repeats: true
+      }
+    },)
 
     const data = await AsyncStorage.getItem('@plantmanager:plants')
     const oldPlants = data ? (JSON.parse(data) as StoragePlantProps): {}
     const newPlant = {
       [plant.id]:{
-        data: plant
+        data: plant,
+        notificationId
       }
     }
     console.log(oldPlants);
