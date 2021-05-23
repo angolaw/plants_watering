@@ -101,7 +101,7 @@ export function PlantSelect(){
         <FlatList 
           data={filteredPlants}
           renderItem={({item}) => <PlantCardPrimary data={item}
-          
+              key={item.id}
           />}
           showsVerticalScrollIndicator={false}
           numColumns={2}

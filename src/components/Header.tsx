@@ -13,7 +13,7 @@ export function Header(){
       }
   useEffect(() => {
     loadUserName()
-  },[])
+  },[name])
   return (
     <View style={styles.container} >
         <View>
