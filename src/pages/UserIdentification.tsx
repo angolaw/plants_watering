@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, {useState} from 'react'
-import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, Keyboard, Platform, TouchableWithoutFeedback} from 'react-native'
+import { View, Text, TextInput, SafeAreaView, StyleSheet, KeyboardAvoidingView, Keyboard, Platform, TouchableWithoutFeedback, Alert} from 'react-native'
 import { Button } from '../components/Button'
 import colors from '../styles/colors'
 import fonts from '../styles/fonts'
@@ -26,6 +26,7 @@ export function UserIdentification(){
     const navigation = useNavigation()
 
   function handleConfirm(){
+    if(!name) return Alert.alert(`Precisamos saber seu nome! 🧐`)
     navigation.navigate('Confirmation')
   }
   return(
